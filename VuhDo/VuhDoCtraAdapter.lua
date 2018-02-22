@@ -3,7 +3,11 @@
 
 --
 function VUHDO_sendCtraMessage(aMessage)
-	SendAddonMessage("CTRA", aMessage, VUHDO_getAddOnDistribution());
+	if C_ChatInfo then
+		C_ChatInfo.SendAddonMessage("CTRA", aMessage, VUHDO_getAddOnDistribution());
+	else
+		SendAddonMessage("CTRA", aMessage, VUHDO_getAddOnDistribution());
+	end
 end
 
 

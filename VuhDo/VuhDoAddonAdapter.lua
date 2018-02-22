@@ -40,8 +40,13 @@ LoadAddOn("FuBarPlugin-3.0");
 
 --
 function VUHDO_initAddonMessages()
-	if not IsAddonMessagePrefixRegistered("CTRA") then RegisterAddonMessagePrefix("CTRA"); end
-	if not IsAddonMessagePrefixRegistered(VUHDO_COMMS_PREFIX) then RegisterAddonMessagePrefix(VUHDO_COMMS_PREFIX); end
+	if C_ChatInfo then
+		if not C_ChatInfo.IsAddonMessagePrefixRegistered("CTRA") then C_ChatInfo.RegisterAddonMessagePrefix("CTRA"); end
+		if not C_ChatInfo.IsAddonMessagePrefixRegistered(VUHDO_COMMS_PREFIX) then C_ChatInfo.RegisterAddonMessagePrefix(VUHDO_COMMS_PREFIX); end
+	else
+		if not IsAddonMessagePrefixRegistered("CTRA") then RegisterAddonMessagePrefix("CTRA"); end
+		if not IsAddonMessagePrefixRegistered(VUHDO_COMMS_PREFIX) then RegisterAddonMessagePrefix(VUHDO_COMMS_PREFIX); end
+	end
 end
 
 

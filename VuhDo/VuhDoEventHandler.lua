@@ -273,7 +273,7 @@ end
 
 --
 local function VUHDO_loadCurrentProfile()
-	if not VUHDO_CONFIG then 
+	if not VUHDO_CONFIG then
 		return;
 	end
 
@@ -299,7 +299,7 @@ end
 
 --
 local function VUHDO_loadDefaultProfile()
-	if not VUHDO_CONFIG then 
+	if not VUHDO_CONFIG then
 		return;
 	elseif ((VUHDO_CONFIG["CURRENT_PROFILE"] or "") == "") and
 		((VUHDO_DEFAULT_PROFILE or "") ~= "") then
@@ -324,7 +324,7 @@ end
 
 --
 local function VUHDO_loadDefaultLayout()
-	if not VUHDO_SPEC_LAYOUTS then 
+	if not VUHDO_SPEC_LAYOUTS then
 		return;
 	elseif ((VUHDO_SPEC_LAYOUTS["selected"] or "") == "") and
 		((VUHDO_DEFAULT_LAYOUT or "") ~= "") then
@@ -441,7 +441,7 @@ function VUHDO_OnEvent(_, anEvent, anArg1, anArg2, anArg3, anArg4, anArg5, anArg
 
 	elseif "UNIT_HEALTH" == anEvent then
 		-- as of patch 7.1 we are seeing empty units on health related events
-		if anArg1 and (VUHDO_RAID or tEmptyRaid)[anArg1] then 
+		if anArg1 and (VUHDO_RAID or tEmptyRaid)[anArg1] then
 			VUHDO_updateHealth(anArg1, 2); -- VUHDO_UPDATE_HEALTH
 		end
 
@@ -459,7 +459,7 @@ function VUHDO_OnEvent(_, anEvent, anArg1, anArg2, anArg3, anArg4, anArg5, anArg
 			VUHDO_updateBouquetsForEvent(anArg1, 9); -- VUHDO_UPDATE_ALT_POWER
 		end
 
-	elseif "UNIT_POWER" == anEvent or "UNIT_POWER_FREQUENT" == anEvent then
+	elseif "UNIT_POWER_UPDATE" == anEvent or "UNIT_POWER" == anEvent or "UNIT_POWER_FREQUENT" == anEvent then
 		if (VUHDO_RAID or tEmptyRaid)[anArg1] then
 			if "CHI" == anArg2 then
 				if "player" == anArg1 then VUHDO_updateBouquetsForEvent("player", 35); end -- VUHDO_UPDATE_CHI
@@ -501,7 +501,7 @@ function VUHDO_OnEvent(_, anEvent, anArg1, anArg2, anArg3, anArg4, anArg5, anArg
 
 	elseif "UNIT_MAXHEALTH" == anEvent then
 		-- as of patch 7.1 we are seeing empty units on health related events
-		if anArg1 and (VUHDO_RAID or tEmptyRaid)[anArg1] then 
+		if anArg1 and (VUHDO_RAID or tEmptyRaid)[anArg1] then
 			VUHDO_updateHealth(anArg1, VUHDO_UPDATE_HEALTH_MAX);
 		end
 
@@ -539,7 +539,7 @@ function VUHDO_OnEvent(_, anEvent, anArg1, anArg2, anArg3, anArg4, anArg5, anArg
 
  	-- INSTANCE_ENCOUNTER_ENGAGE_UNIT fires when a boss unit is added to the UI
  	-- this is essentially the equivalent of GROUP_ROSTER_UPDATE for bosses/NPCs
- 	elseif "GROUP_ROSTER_UPDATE" == anEvent or "INSTANCE_ENCOUNTER_ENGAGE_UNIT" == anEvent then	
+ 	elseif "GROUP_ROSTER_UPDATE" == anEvent or "INSTANCE_ENCOUNTER_ENGAGE_UNIT" == anEvent then
 		--VUHDO_CURR_LAYOUT = VUHDO_SPEC_LAYOUTS["selected"];
 		--VUHDO_CURRENT_PROFILE = VUHDO_CONFIG["CURRENT_PROFILE"];
 
@@ -820,7 +820,7 @@ function VUHDO_slashCmd(aCommand)
 	elseif aCommand == "?" or strfind(tCommandWord, "help")	or aCommand == "" then
 		local tLines = VUHDO_splitString(VUHDO_I18N_COMMAND_LIST, "�");
 
-		for _, tCurLine in ipairs(tLines) do 
+		for _, tCurLine in ipairs(tLines) do
 			VUHDO_MsgC(tCurLine);
 		end
 	else
@@ -892,7 +892,7 @@ function VUHDO_updateGlobalToggles()
 	 	or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_ALT_POWER)
 	 	or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_OWN_HOLY_POWER)
 	 	or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_CHI),
-		"UNIT_DISPLAYPOWER", "UNIT_MAXPOWER", "UNIT_POWER", "UNIT_POWER_FREQUENT"
+		"UNIT_DISPLAYPOWER", "UNIT_MAXPOWER", C_ChatInfo and "UNIT_POWER_UPDATE" or "UNIT_POWER", "UNIT_POWER_FREQUENT"
 	);
 
 	if VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_UNIT_TARGET) then
@@ -931,10 +931,10 @@ function VUHDO_updateGlobalToggles()
 
 	VUHDO_UnRegisterEvent(VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_SHIELD], "UNIT_ABSORB_AMOUNT_CHANGED");
 
-	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_SPELL_TRACE] = VUHDO_CONFIG["SHOW_SPELL_TRACE"] 
+	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_SPELL_TRACE] = VUHDO_CONFIG["SHOW_SPELL_TRACE"]
 		or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_SPELL_TRACE);
 
-	VUHDO_UnRegisterEvent(VUHDO_CONFIG["PARSE_COMBAT_LOG"] or VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_SPELL_TRACE], 
+	VUHDO_UnRegisterEvent(VUHDO_CONFIG["PARSE_COMBAT_LOG"] or VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_SPELL_TRACE],
 		"COMBAT_LOG_EVENT_UNFILTERED");
 end
 
@@ -1032,13 +1032,13 @@ local function VUHDO_updateAllRange()
 
 		-- Check if unit is in range
 		if sIsRangeKnown then
-			tIsInRange = tInfo["connected"] and 
-				(1 == IsSpellInRange(sRangeSpell, tUnit) or 
-					((tInfo["dead"] or tInfo["charmed"]) and tInfo["baseRange"]) or "player" == tUnit or 
+			tIsInRange = tInfo["connected"] and
+				(1 == IsSpellInRange(sRangeSpell, tUnit) or
+					((tInfo["dead"] or tInfo["charmed"]) and tInfo["baseRange"]) or "player" == tUnit or
 					(VUHDO_isSpecialUnit(tUnit) and CheckInteractDistance(tUnit, 1)));
 		else
-			tIsInRange = tInfo["connected"] and 
-				(tInfo["baseRange"] or 
+			tIsInRange = tInfo["connected"] and
+				(tInfo["baseRange"] or
 					(VUHDO_isSpecialUnit(tUnit) and CheckInteractDistance(tUnit, 1)));
 		end
 
@@ -1286,7 +1286,7 @@ function VUHDO_OnUpdate(_, aTimeDelta)
 	if VUHDO_checkResetTimer("UPDATE_HOTS", sHotToggleUpdateSecs) then
 		if tHotDebuffToggle == 1 then
 			VUHDO_updateAllHoTs();
-			
+
 			if VUHDO_INTERNAL_TOGGLES[18] then -- VUHDO_UPDATE_MOUSEOVER_CLUSTER
 				VUHDO_updateClusterHighlights();
 			end
@@ -1312,9 +1312,9 @@ function VUHDO_OnUpdate(_, aTimeDelta)
 			end
 		end
 
-		if tHotDebuffToggle > 2 then 
+		if tHotDebuffToggle > 2 then
 			tHotDebuffToggle = 1;
-		else 
+		else
 			tHotDebuffToggle = tHotDebuffToggle + 1;
 		end
 	end
@@ -1421,9 +1421,9 @@ function VUHDO_OnUpdate(_, aTimeDelta)
 
 	-- Refresh d/c shield macros?
 	if VUHDO_checkTimer("MIRROR_TO_MACRO") then
-		if InCombatLockdown() then 
+		if InCombatLockdown() then
 			VUHDO_TIMERS["MIRROR_TO_MACRO"] = 2;
-		else 
+		else
 			VUHDO_mirrorToMacro();
 		end
 	end
@@ -1436,7 +1436,7 @@ local VUHDO_ALL_EVENTS = {
 	"UNIT_HEALTH", "UNIT_HEALTH_FREQUENT", "UNIT_MAXHEALTH",
 	"UNIT_AURA",
 	"UNIT_TARGET",
-	"GROUP_ROSTER_UPDATE", "INSTANCE_ENCOUNTER_ENGAGE_UNIT", 
+	"GROUP_ROSTER_UPDATE", "INSTANCE_ENCOUNTER_ENGAGE_UNIT",
 	"UNIT_PET",
 	"UNIT_ENTERED_VEHICLE", "UNIT_EXITED_VEHICLE", "UNIT_EXITING_VEHICLE",
 	"CHAT_MSG_ADDON",
@@ -1444,7 +1444,7 @@ local VUHDO_ALL_EVENTS = {
 	"LEARNED_SPELL_IN_TAB",
 	"PLAYER_FLAGS_CHANGED",
 	"PLAYER_LOGOUT",
-	"UNIT_DISPLAYPOWER", "UNIT_MAXPOWER", "UNIT_POWER",
+	"UNIT_DISPLAYPOWER", "UNIT_MAXPOWER", C_ChatInfo and "UNIT_POWER_UPDATE" or "UNIT_POWER",
 	"UNIT_SPELLCAST_SENT", "UNIT_SPELLCAST_SUCCEEDED",
 	"PARTY_MEMBER_ENABLE", "PARTY_MEMBER_DISABLE",
 	"COMBAT_LOG_EVENT_UNFILTERED",
