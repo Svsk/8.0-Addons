@@ -149,24 +149,28 @@ function Bartender4:HideBlizzard()
 	--MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITED_VEHICLE")
 	MainMenuBarArtFrame:Hide()
 	MainMenuBarArtFrame:SetParent(UIHider)
+	MicroButtonAndBagsBar:Hide()
+	MicroButtonAndBagsBar:SetParent(UIHider)
 
 	--MainMenuExpBar:UnregisterAllEvents()
 	--MainMenuExpBar:Hide()
-	MainMenuExpBar:SetParent(UIHider)
-	MainMenuExpBar:SetDeferAnimationCallback(nil)
 
-	MainMenuBarMaxLevelBar:Hide()
-	MainMenuBarMaxLevelBar:SetParent(UIHider)
+	StatusTrackingBarManager:Hide()
+	--StatusTrackingBarManager:SetParent(UIHider)
+	--StatusTrackingBarManager:SetDeferAnimationCallback(nil)
+
+	--MainMenuBarMaxLevelBar:Hide()
+	--MainMenuBarMaxLevelBar:SetParent(UIHider)
 
 	--ReputationWatchBar:UnregisterAllEvents()
 	--ReputationWatchBar:Hide()
-	ReputationWatchBar:SetParent(UIHider)
+	--ReputationWatchBar:SetParent(UIHider)
 
-	ArtifactWatchBar:SetParent(UIHider)
-	ArtifactWatchBar.StatusBar:SetDeferAnimationCallback(nil)
+	--ArtifactWatchBar:SetParent(UIHider)
+	--ArtifactWatchBar.StatusBar:SetDeferAnimationCallback(nil)
 
-	HonorWatchBar:SetParent(UIHider)
-	HonorWatchBar.StatusBar:SetDeferAnimationCallback(nil)
+	--HonorWatchBar:SetParent(UIHider)
+	--HonorWatchBar.StatusBar:SetDeferAnimationCallback(nil)
 
 	StanceBarFrame:UnregisterAllEvents()
 	StanceBarFrame:Hide()
