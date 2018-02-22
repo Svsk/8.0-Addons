@@ -986,8 +986,8 @@ WeakAuras.event_prototypes = {
     events = function(trigger)
       local result = {
         "UNIT_HEALTH_FREQUENT",
-        "WA_UNIT_PET",
-        "WA_DELAYED_PLAYER_ENTERING_WORLD"
+		--"WA_UNIT_PET",
+        --"WA_DELAYED_PLAYER_ENTERING_WORLD"
       };
       AddUnitChangeEvents(trigger.unit, result);
       if (trigger.use_showAbsorb) then
@@ -998,7 +998,7 @@ WeakAuras.event_prototypes = {
       end
       return result;
     end,
-    force_events = "WA_DELAYED_PLAYER_ENTERING_WORLD",
+    force_events = "UNIT_HEALTH_FREQUENT",
     name = L["Health"],
     init = function(trigger)
       trigger.unit = trigger.unit or "player";
@@ -1123,7 +1123,7 @@ WeakAuras.event_prototypes = {
     events = function(trigger)
       local result = {
         "UNIT_POWER_FREQUENT",
-        "WA_DELAYED_PLAYER_ENTERING_WORLD",
+        --"WA_DELAYED_PLAYER_ENTERING_WORLD",
         "UNIT_DISPLAYPOWER"
       };
       AddUnitChangeEvents(trigger.unit, result);
@@ -1134,7 +1134,7 @@ WeakAuras.event_prototypes = {
       end
       return result;
     end,
-    force_events = "WA_DELAYED_PLAYER_ENTERING_WORLD",
+    force_events = "UNIT_POWER_FREQUENT",
     name = L["Power"],
     init = function(trigger)
       trigger.unit = trigger.unit or "player";
@@ -1283,7 +1283,7 @@ WeakAuras.event_prototypes = {
       AddUnitChangeEvents(trigger.unit, result);
       return result;
     end,
-    force_events = "WA_DELAYED_PLAYER_ENTERING_WORLD",
+    force_events = "UNIT_POWER_FREQUENT",
     name = L["Alternate Power"],
     init = function(trigger)
       trigger.unit = trigger.unit or "player";
@@ -1737,7 +1737,7 @@ WeakAuras.event_prototypes = {
   ["Spell Activation Overlay"] = {
     type = "status",
     events = {
-      "WA_UPDATE_OVERLAY_GLOW"
+      --"WA_UPDATE_OVERLAY_GLOW"
     },
     force_events = "WA_UPDATE_OVERLAY_GLOW",
     name = L["Spell Activation Overlay Glow"],
@@ -1767,21 +1767,28 @@ WeakAuras.event_prototypes = {
   ["Cooldown Progress (Spell)"] = {
     type = "status",
     events = function(trigger, untrigger)
-      local events = {
-        "SPELL_COOLDOWN_READY",
-        "SPELL_COOLDOWN_CHANGED",
-        "SPELL_COOLDOWN_STARTED",
-        "COOLDOWN_REMAINING_CHECK",
-        "WA_DELAYED_PLAYER_ENTERING_WORLD"
-      };
+		local events = {}
+		if C_ChatInfo then
+		  events = {
+			"SPELL_UPDATE_COOLDOWN"
+		  };
+		else
+		  events = {
+			"SPELL_COOLDOWN_READY",
+			"SPELL_COOLDOWN_CHANGED",
+			"SPELL_COOLDOWN_STARTED",
+			"COOLDOWN_REMAINING_CHECK",
+			"WA_DELAYED_PLAYER_ENTERING_WORLD"
+		  };
+		end
       if (trigger.use_showgcd) then
-        tinsert(events, "GCD_START");
-        tinsert(events, "GCD_CHANGE");
-        tinsert(events, "GCD_END");
+        --tinsert(events, "GCD_START");
+        --tinsert(events, "GCD_CHANGE");
+        --tinsert(events, "GCD_END");
       end
       return events;
     end,
-    force_events = "SPELL_COOLDOWN_FORCE",
+    force_events = "SPELL_UPDATE_COOLDOWN",
     name = L["Cooldown Progress (Spell)"],
     init = function(trigger)
       trigger.spellName = trigger.spellName or 0;
@@ -1915,7 +1922,7 @@ WeakAuras.event_prototypes = {
   ["Cooldown Ready (Spell)"] = {
     type = "event",
     events = {
-      "SPELL_COOLDOWN_READY",
+       --"SPELL_COOLDOWN_READY",
     },
     name = L["Cooldown Ready (Spell)"],
     init = function(trigger)
@@ -2006,11 +2013,11 @@ WeakAuras.event_prototypes = {
   ["Cooldown Progress (Item)"] = {
     type = "status",
     events = {
-      "ITEM_COOLDOWN_READY",
-      "ITEM_COOLDOWN_CHANGED",
-      "ITEM_COOLDOWN_STARTED",
-      "COOLDOWN_REMAINING_CHECK",
-      "ITEM_INFO_UPDATED"
+      --"ITEM_COOLDOWN_READY",
+      --"ITEM_COOLDOWN_CHANGED",
+      --"ITEM_COOLDOWN_STARTED",
+      --"COOLDOWN_REMAINING_CHECK",
+      --"ITEM_INFO_UPDATED"
     },
     force_events = "ITEM_COOLDOWN_FORCE",
     name = L["Cooldown Progress (Item)"],
@@ -2099,11 +2106,11 @@ WeakAuras.event_prototypes = {
   ["Cooldown Progress (Equipment Slot)"] = {
     type = "status",
     events = {
-      "ITEM_SLOT_COOLDOWN_READY",
-      "ITEM_SLOT_COOLDOWN_STARTED",
-      "ITEM_SLOT_COOLDOWN_CHANGED",
-      "COOLDOWN_REMAINING_CHECK",
-      "ITEM_SLOT_COOLDOWN_ITEM_CHANGED"
+      --"ITEM_SLOT_COOLDOWN_READY",
+      --"ITEM_SLOT_COOLDOWN_STARTED",
+      --"ITEM_SLOT_COOLDOWN_CHANGED",
+      --"COOLDOWN_REMAINING_CHECK",
+      --"ITEM_SLOT_COOLDOWN_ITEM_CHANGED"
     },
     force_events = "ITEM_COOLDOWN_FORCE",
     name = L["Cooldown Progress (Equipment Slot)"],
@@ -2190,8 +2197,8 @@ WeakAuras.event_prototypes = {
   ["Cooldown Ready (Item)"] = {
     type = "event",
     events = {
-      "ITEM_COOLDOWN_READY",
-      "ITEM_INFO_UPDATED"
+      --"ITEM_COOLDOWN_READY",
+      --"ITEM_INFO_UPDATED"
     },
     name = L["Cooldown Ready (Item)"],
     init = function(trigger)
@@ -2225,7 +2232,7 @@ WeakAuras.event_prototypes = {
   ["Cooldown Ready (Equipment Slot)"] = {
     type = "event",
     events = {
-      "ITEM_SLOT_COOLDOWN_READY"
+      --"ITEM_SLOT_COOLDOWN_READY"
     },
     name = L["Cooldown Ready (Equipment Slot)"],
     init = function(trigger)
@@ -2544,7 +2551,7 @@ WeakAuras.event_prototypes = {
   ["BigWigs Timer"] = {
     type = "status",
     events = {
-      "BigWigs_StartBar", "BigWigs_StopBar", "BigWigs_Timer_Update",
+      --"BigWigs_StartBar", "BigWigs_StopBar", "BigWigs_Timer_Update",
     },
     force_events = "BigWigs_Timer_Force",
     name = L["BigWigs Timer"],
@@ -2685,11 +2692,11 @@ WeakAuras.event_prototypes = {
   ["Global Cooldown"] = {
     type = "status",
     events = {
-      "GCD_START",
-      "GCD_CHANGE",
-      "GCD_END",
-      "GCD_UPDATE",
-      "WA_DELAYED_PLAYER_ENTERING_WORLD"
+      --"GCD_START",
+      --"GCD_CHANGE",
+      --"GCD_END",
+      --"GCD_UPDATE",
+      --"WA_DELAYED_PLAYER_ENTERING_WORLD"
     },
     name = L["Global Cooldown"],
     init = function(trigger)
@@ -2732,9 +2739,9 @@ WeakAuras.event_prototypes = {
   ["Swing Timer"] = {
     type = "status",
     events = {
-      "SWING_TIMER_START",
-      "SWING_TIMER_CHANGE",
-      "SWING_TIMER_END"
+      --"SWING_TIMER_START",
+      --"SWING_TIMER_CHANGE",
+      --"SWING_TIMER_END"
     },
     name = L["Swing Timer"],
     init = function(trigger)
@@ -2784,14 +2791,14 @@ WeakAuras.event_prototypes = {
   ["Action Usable"] = {
     type = "status",
     events = {
-      "SPELL_COOLDOWN_READY",
-      "SPELL_COOLDOWN_CHANGED",
-      "SPELL_COOLDOWN_STARTED",
+      --"SPELL_COOLDOWN_READY",
+      --"SPELL_COOLDOWN_CHANGED",
+      --"SPELL_COOLDOWN_STARTED",
       "SPELL_UPDATE_USABLE",
       "PLAYER_TARGET_CHANGED",
       "UNIT_POWER_FREQUENT",
       "RUNE_POWER_UPDATE",
-      "RUNE_TYPE_UPDATE"
+	  --"RUNE_TYPE_UPDATE"
     },
     force_events = "SPELL_UPDATE_USABLE",
     name = L["Action Usable"],
@@ -2882,7 +2889,7 @@ WeakAuras.event_prototypes = {
     type = "status",
     events = {
       "PLAYER_TOTEM_UPDATE",
-      "COOLDOWN_REMAINING_CHECK",
+      --"COOLDOWN_REMAINING_CHECK",
       "PLAYER_ENTERING_WORLD"
     },
     force_events = "PLAYER_ENTERING_WORLD",
@@ -3043,7 +3050,7 @@ WeakAuras.event_prototypes = {
     type = "status",
     events = {
       "BAG_UPDATE",
-      "ITEM_COUNT_UPDATE",
+      --"ITEM_COUNT_UPDATE",
       "PLAYER_ENTERING_WORLD"
     },
     force_events = "BAG_UPDATE",
@@ -3103,9 +3110,9 @@ WeakAuras.event_prototypes = {
     type = "status",
     events = {
       "UPDATE_SHAPESHIFT_FORM",
-      "WA_DELAYED_PLAYER_ENTERING_WORLD"
+      --"WA_DELAYED_PLAYER_ENTERING_WORLD"
     },
-    force_events = "WA_DELAYED_PLAYER_ENTERING_WORLD",
+    force_events = "UPDATE_SHAPESHIFT_FORM",
     name = L["Stance/Form/Aura"],
     init = function(trigger)
       local ret = [[
@@ -3167,8 +3174,8 @@ WeakAuras.event_prototypes = {
   ["Weapon Enchant"] = {
     type = "status",
     events = {
-      "MAINHAND_TENCH_UPDATE",
-      "OFFHAND_TENCH_UPDATE"
+      --"MAINHAND_TENCH_UPDATE",
+      --"OFFHAND_TENCH_UPDATE"
     },
     force_events = "MAINHAND_TENCH_UPDATE",
     name = L["Fishing Lure / Weapon Enchant (Old)"],
@@ -3362,13 +3369,13 @@ WeakAuras.event_prototypes = {
   ["Death Knight Rune"] = {
     type = "status",
     events = {
-      "RUNE_POWER_UPDATE",
-      "RUNE_TYPE_UPDATE",
-      "RUNE_COOLDOWN_READY",
-      "RUNE_COOLDOWN_CHANGED",
-      "RUNE_COOLDOWN_STARTED",
-      "COOLDOWN_REMAINING_CHECK",
-      "WA_DELAYED_PLAYER_ENTERING_WORLD"
+	  --"RUNE_TYPE_UPDATE",
+      --"RUNE_TYPE_UPDATE",
+      --"RUNE_COOLDOWN_READY",
+      --"RUNE_COOLDOWN_CHANGED",
+      --"RUNE_COOLDOWN_STARTED",
+      --"COOLDOWN_REMAINING_CHECK",
+      --"WA_DELAYED_PLAYER_ENTERING_WORLD"
     },
     force_events = "RUNE_COOLDOWN_FORCE",
     name = L["Death Knight Rune"],
@@ -3494,8 +3501,8 @@ WeakAuras.event_prototypes = {
     events = {
       "UNIT_INVENTORY_CHANGED",
       "PLAYER_EQUIPMENT_CHANGED",
-      "WA_DELAYED_PLAYER_ENTERING_WORLD",
-      "ITEM_INFO_UPDATED"
+      --"WA_DELAYED_PLAYER_ENTERING_WORLD",
+      --"ITEM_INFO_UPDATED"
     },
     force_events = "UNIT_INVENTORY_CHANGED",
     name = L["Item Equipped"],
@@ -3612,7 +3619,7 @@ WeakAuras.event_prototypes = {
       "WEAR_EQUIPMENT_SET",
       "EQUIPMENT_SETS_CHANGED",
       "EQUIPMENT_SWAP_FINISHED",
-      "WA_DELAYED_PLAYER_ENTERING_WORLD"
+      --"WA_DELAYED_PLAYER_ENTERING_WORLD"
     },
     force_events = "PLAYER_EQUIPMENT_CHANGED",
     name = L["Equipment Set Equipped"],
@@ -3747,12 +3754,12 @@ WeakAuras.event_prototypes = {
         "UNIT_SPELLCAST_DELAYED",
         "UNIT_SPELLCAST_INTERRUPTIBLE",
         "UNIT_SPELLCAST_NOT_INTERRUPTIBLE",
-        "CAST_REMAINING_CHECK"
+        --"CAST_REMAINING_CHECK"
       };
       AddUnitChangeEvents(trigger.unit, result);
       return result;
     end,
-    force_events = "CAST_REMAINING_CHECK",
+    force_events = "UNIT_SPELLCAST_CHANNEL_START",
     name = L["Cast"],
     init = function(trigger)
       trigger.unit = trigger.unit or "";
@@ -3888,7 +3895,7 @@ WeakAuras.event_prototypes = {
     type = "status",
     events = function(trigger, untrigger)
       local events = {};
-      tinsert(events,  "CONDITIONS_CHECK");
+      --tinsert(events,  "CONDITIONS_CHECK");
       if (trigger.use_incombat ~= nil) then
         tinsert(events, "PLAYER_REGEN_ENABLED");
         tinsert(events, "PLAYER_REGEN_DISABLED");
@@ -3927,7 +3934,7 @@ WeakAuras.event_prototypes = {
 
       return events;
     end,
-    force_events = "CONDITIONS_CHECK",
+    force_events = "PLAYER_REGEN_ENABLED",
     name = L["Conditions"],
     init = function(trigger)
       if(trigger.use_mounted ~= nil) then
@@ -4003,12 +4010,12 @@ WeakAuras.event_prototypes = {
   ["Spell Known"] = {
     type = "status",
     events = {
-      "WA_DELAYED_PLAYER_ENTERING_WORLD",
+      --"WA_DELAYED_PLAYER_ENTERING_WORLD",
       "SPELLS_CHANGED",
       "UNIT_PET",
-      "WA_SPELL_CHECK"
+      --"WA_SPELL_CHECK"
     },
-    force_events = "WA_SPELL_CHECK",
+    force_events = "SPELLS_CHANGED",
     name = L["Spell Known"],
     init = function(trigger)
       local ret = [[
@@ -4048,9 +4055,9 @@ WeakAuras.event_prototypes = {
     events = {
       "PET_BAR_UPDATE",
       "UNIT_PET",
-      "WA_DELAYED_PLAYER_ENTERING_WORLD"
+      --"WA_DELAYED_PLAYER_ENTERING_WORLD"
     },
-    force_events = "WA_DELAYED_PLAYER_ENTERING_WORLD",
+    force_events = "PET_BAR_UPDATE",
     name = L["Pet Behavior"],
     init = function(trigger)
       local ret = [[

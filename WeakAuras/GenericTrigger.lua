@@ -1301,7 +1301,7 @@ do
     cdReadyFrame:RegisterEvent("SPELL_UPDATE_COOLDOWN");
     cdReadyFrame:RegisterEvent("SPELL_UPDATE_CHARGES");
     cdReadyFrame:RegisterEvent("RUNE_POWER_UPDATE");
-    cdReadyFrame:RegisterEvent("RUNE_TYPE_UPDATE");
+	--cdReadyFrame:RegisterEvent("RUNE_TYPE_UPDATE");
     cdReadyFrame:RegisterEvent("UNIT_SPELLCAST_SENT");
     cdReadyFrame:RegisterEvent("PLAYER_TALENT_UPDATE");
     cdReadyFrame:RegisterEvent("PLAYER_PVP_TALENT_UPDATE");
@@ -1320,7 +1320,7 @@ do
             local icon = GetSpellTexture(name);
             gcdSpellName = name;
             gcdSpellIcon = icon;
-            WeakAuras.ScanEvents("GCD_UPDATE");
+            --WeakAuras.ScanEvents("GCD_UPDATE");
           end
         end
       elseif(event == "UNIT_INVENTORY_CHANGED" or event == "BAG_UPDATE_COOLDOWN" or event == "PLAYER_EQUIPMENT_CHANGED") then
@@ -1408,7 +1408,7 @@ do
     runeCdHandles[id] = nil;
     runeCdDurs[id] = nil;
     runeCdExps[id] = nil;
-    WeakAuras.ScanEvents("RUNE_COOLDOWN_READY", id);
+    --WeakAuras.ScanEvents("RUNE_COOLDOWN_READY", id);
   end
 
   local function SpellCooldownRuneFinished(id)
@@ -1442,14 +1442,14 @@ do
     itemCdHandles[id] = nil;
     itemCdDurs[id] = nil;
     itemCdExps[id] = nil;
-    WeakAuras.ScanEvents("ITEM_COOLDOWN_READY", id);
+    --WeakAuras.ScanEvents("ITEM_COOLDOWN_READY", id);
   end
 
   local function ItemSlotCooldownFinished(id)
     itemSlotsCdHandles[id] = nil;
     itemSlotsCdDurs[id] = nil;
     itemSlotsCdExps[id] = nil;
-    WeakAuras.ScanEvents("ITEM_SLOT_COOLDOWN_READY", id);
+    --WeakAuras.ScanEvents("ITEM_SLOT_COOLDOWN_READY", id);
   end
 
   local function CheckGCD()
@@ -1503,7 +1503,7 @@ do
           runeCdDurs[id] = duration;
           runeCdExps[id] = endTime;
           runeCdHandles[id] = timer:ScheduleTimerFixed(RuneCooldownFinished, endTime - time, id);
-          WeakAuras.ScanEvents("RUNE_COOLDOWN_STARTED", id);
+          --WeakAuras.ScanEvents("RUNE_COOLDOWN_STARTED", id);
         elseif(runeCdExps[id] ~= endTime) then
           -- Cooldown is now different
           if(runeCdHandles[id]) then
@@ -1512,7 +1512,7 @@ do
           runeCdDurs[id] = duration;
           runeCdExps[id] = endTime;
           runeCdHandles[id] = timer:ScheduleTimerFixed(RuneCooldownFinished, endTime - time, id);
-          WeakAuras.ScanEvents("RUNE_COOLDOWN_CHANGED", id);
+          --WeakAuras.ScanEvents("RUNE_COOLDOWN_CHANGED", id);
         end
       elseif(duration > 0) then
       -- GCD, do nothing
@@ -1674,7 +1674,7 @@ do
           itemCdDurs[id] = duration;
           itemCdExps[id] = endTime;
           itemCdHandles[id] = timer:ScheduleTimerFixed(ItemCooldownFinished, endTime - time, id);
-          WeakAuras.ScanEvents("ITEM_COOLDOWN_STARTED", id);
+          --WeakAuras.ScanEvents("ITEM_COOLDOWN_STARTED", id);
         elseif(itemCdExps[id] ~= endTime) then
           -- Cooldown is now different
           if(itemCdHandles[id]) then
@@ -1683,7 +1683,7 @@ do
           itemCdDurs[id] = duration;
           itemCdExps[id] = endTime;
           itemCdHandles[id] = timer:ScheduleTimerFixed(ItemCooldownFinished, endTime - time, id);
-          WeakAuras.ScanEvents("ITEM_COOLDOWN_CHANGED", id);
+          --WeakAuras.ScanEvents("ITEM_COOLDOWN_CHANGED", id);
         end
       elseif(duration > 0) then
       -- GCD, do nothing
@@ -1717,7 +1717,7 @@ do
           itemSlotsCdDurs[id] = duration;
           itemSlotsCdExps[id] = endTime;
           itemSlotsCdHandles[id] = timer:ScheduleTimerFixed(ItemSlotCooldownFinished, endTime - time, id);
-          WeakAuras.ScanEvents("ITEM_SLOT_COOLDOWN_STARTED", id);
+          --WeakAuras.ScanEvents("ITEM_SLOT_COOLDOWN_STARTED", id);
         elseif(itemSlotsCdExps[id] ~= endTime) then
           -- Cooldown is now different
           if(itemSlotsCdHandles[id]) then
@@ -1726,7 +1726,7 @@ do
           itemSlotsCdDurs[id] = duration;
           itemSlotsCdExps[id] = endTime;
           itemSlotsCdHandles[id] = timer:ScheduleTimerFixed(ItemSlotCooldownFinished, endTime - time, id);
-          WeakAuras.ScanEvents("ITEM_SLOT_COOLDOWN_CHANGED", id);
+          --WeakAuras.ScanEvents("ITEM_SLOT_COOLDOWN_CHANGED", id);
         end
       elseif(duration > 0) then
       -- GCD, do nothing
@@ -1743,7 +1743,7 @@ do
 
       local newItemId = GetInventoryItemID("player", id);
       if (itemId ~= newItemId) then
-        WeakAuras.ScanEvents("ITEM_SLOT_COOLDOWN_ITEM_CHANGED");
+        --WeakAuras.ScanEvents("ITEM_SLOT_COOLDOWN_ITEM_CHANGED");
         itemSlots[id] = newItemId or 0;
       end
     end
@@ -1895,7 +1895,7 @@ do
     spellActivationFrame:SetScript("OnEvent", function(self, event, spell)
       if (spellActivationSpells[spell]) then
         spellActivationSpellsCurrent[spell] = (event == "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW");
-        WeakAuras.ScanEvents("WA_UPDATE_OVERLAY_GLOW", spell);
+        --WeakAuras.ScanEvents("WA_UPDATE_OVERLAY_GLOW", spell);
       end
     end);
   end
@@ -2141,7 +2141,7 @@ do
       bar.duration = duration;
       bar.expirationTime = expirationTime;
       bar.icon = icon;
-      WeakAuras.ScanEvents("BigWigs_StartBar", text);
+      --WeakAuras.ScanEvents("BigWigs_StartBar", text);
       if (nextExpire == nil) then
         recheckTimer = timer:ScheduleTimerFixed(recheckTimers, expirationTime - now);
         nextExpire = expirationTime;
@@ -2319,7 +2319,7 @@ do
           mh_dur = mh_rem and mh_rem / 1000;
           mh_name = mh_exp and getTenchName(mh) or "None";
           mh_icon = GetInventoryItemTexture("player", mh)
-          WeakAuras.ScanEvents("MAINHAND_TENCH_UPDATE");
+          --WeakAuras.ScanEvents("MAINHAND_TENCH_UPDATE");
         end
         if(math.abs((oh_exp or 0) - (oh_exp_new or 0)) > 1) then
           oh_exp = oh_exp_new;
@@ -2453,7 +2453,7 @@ do
   local function doCastScan(fireTime)
     WeakAuras.debug("Performing cast scan at "..fireTime.." ("..GetTime()..")");
     scheduled_scans[fireTime] = nil;
-    WeakAuras.ScanEvents("CAST_REMAINING_CHECK");
+    --WeakAuras.ScanEvents("CAST_REMAINING_CHECK");
   end
   function WeakAuras.ScheduleCastCheck(fireTime)
     if not(scheduled_scans[fireTime]) then
