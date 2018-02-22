@@ -6,7 +6,7 @@ if MINOR_VERSION > _G.DogTag_Unit_MINOR_VERSION then
 end
 
 local _G, select = _G, select
-local UnitClass, UnitPowerMax, UnitPower = 
+local UnitClass, UnitPowerMax, UnitPower =
 	  UnitClass, UnitPowerMax, UnitPower
 
 DogTag_Unit_funcs[#DogTag_Unit_funcs+1] = function(DogTag_Unit, DogTag)
@@ -33,7 +33,7 @@ if isMonk then
 	end
 end
 
-local mpEvents = "MonkMana;UNIT_POWER#$unit;UNIT_MAXPOWER#$unit"
+local mpEvents = "MonkMana;UNIT_POWER_UPDATE#$unit;UNIT_MAXPOWER#$unit"
 
 DogTag:AddTag("Unit", "MonkMP", {
 	code = function(args)

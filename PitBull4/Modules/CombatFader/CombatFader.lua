@@ -32,7 +32,7 @@ function PitBull4_CombatFader:OnEnable()
 	self:RegisterEvent("PLAYER_REGEN_DISABLED")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
 	self:RegisterEvent("UNIT_HEALTH")
-	self:RegisterEvent("UNIT_POWER","UNIT_HEALTH")
+	self:RegisterEvent("UNIT_POWER_UPDATE","UNIT_HEALTH")
 	self:RegisterEvent("UNIT_DISPLAYPOWER","UNIT_HEALTH")
 
 	self:RecalculateState()

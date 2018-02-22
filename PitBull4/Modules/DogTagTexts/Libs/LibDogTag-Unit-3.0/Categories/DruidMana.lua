@@ -6,7 +6,7 @@ if MINOR_VERSION > _G.DogTag_Unit_MINOR_VERSION then
 end
 
 local _G, select = _G, select
-local UnitClass, UnitPowerMax, UnitPower = 
+local UnitClass, UnitPowerMax, UnitPower =
 	  UnitClass, UnitPowerMax, UnitPower
 
 DogTag_Unit_funcs[#DogTag_Unit_funcs+1] = function(DogTag_Unit, DogTag)
@@ -37,7 +37,7 @@ end
 local wow_400 = select(4, GetBuildInfo()) >= 40000
 local mpEvents = "DruidMana;UNIT_MANA#$unit;UNIT_MAXMANA#$unit"
 if wow_400 then
-	mpEvents = "DruidMana;UNIT_POWER#$unit;UNIT_MAXPOWER#$unit"
+	mpEvents = "DruidMana;UNIT_POWER_UPDATE#$unit;UNIT_MAXPOWER#$unit"
 end
 
 DogTag:AddTag("Unit", "DruidMP", {

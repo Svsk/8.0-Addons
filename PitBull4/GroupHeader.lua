@@ -1917,7 +1917,7 @@ function GroupHeader:ConfigureChildren()
 			frame:UnregisterEvent("UNIT_PET")
 
 			frame:RegisterUnitEvent("UNIT_NAME_UPDATE", unit)
-			frame:RegisterUnitEvent("ARENA_OPPONENT_UPDATE", unit)
+			--frame:RegisterUnitEvent("ARENA_OPPONENT_UPDATE", unit)
 			frame:RegisterUnitEvent("UNIT_TARGETABLE_CHANGED", unit)
 
 			local unitsuffix = frame:GetAttribute("unitsuffix")

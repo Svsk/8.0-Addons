@@ -507,7 +507,7 @@ return ConfigMode()]],
 	},
 	[L["Combo points"]] = {
 		[L["Standard"]] = {
-			events = {['UNIT_POWER']=true},
+			events = {['UNIT_POWER_UPDATE']=true},
 			code = [[
 local combos = Combos()
 if combos ~= 0 then
@@ -762,7 +762,7 @@ local function fix_power_texts()
 								if not text.events["UNIT_MAXPOWER"] then
 									text.events["UNIT_MAXPOWER"] = true
 								end
-								if not text.events["UNIT_POWER_FREQUENT"] and not text.events["UNIT_POWER"] then
+								if not text.events["UNIT_POWER_FREQUENT"] and not text.events["UNIT_POWER_UPDATE"] then
 									text.events["UNIT_POWER_FREQUENT"] = true
 								end
 							end
