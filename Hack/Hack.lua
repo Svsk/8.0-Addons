@@ -174,22 +174,29 @@ function Hack.OnLoad(self)
    self:RegisterEvent('CHAT_MSG_ADDON')
 
    -- Addon message prefixes
-   RegisterAddonMessagePrefix("Hack1")
-   RegisterAddonMessagePrefix("Hack2")
-   RegisterAddonMessagePrefix("HackAck")
-   RegisterAddonMessagePrefix("HackNack")
+	if C_ChatInfo then
+	   C_ChatInfo.RegisterAddonMessagePrefix("Hack1")
+	   C_ChatInfo.RegisterAddonMessagePrefix("Hack2")
+	   C_ChatInfo.RegisterAddonMessagePrefix("HackAck")
+	   C_ChatInfo.RegisterAddonMessagePrefix("HackNack")
+	else
+		RegisterAddonMessagePrefix("Hack1")
+		RegisterAddonMessagePrefix("Hack2")
+		RegisterAddonMessagePrefix("HackAck")
+		RegisterAddonMessagePrefix("HackNack")
+	end
 
-   SLASH_HACKSLASH1 = '/hack'
-   SlashCmdList['HACKSLASH'] =
-      function(name)
-         if name == '' then
-            Hack.Toggle()
-         else
-            Hack.Run(name)
-         end
-      end
+	SLASH_HACKSLASH1 = '/hack'
+	SlashCmdList['HACKSLASH'] =
+	function(name)
+	 if name == '' then
+		Hack.Toggle()
+	 else
+		Hack.Run(name)
+	 end
+	end
 
-   printf('Loaded. /hack to toggle')
+	printf('Loaded. /hack to toggle')
 end
 
 function Hack.VARIABLES_LOADED(self)
