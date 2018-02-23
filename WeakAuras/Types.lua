@@ -527,8 +527,9 @@ do
 end
 
 WeakAuras.pvp_talent_types = {};
+--[[ XXX Pvp talents not on alpha currently]]--
 do
-  local numTalents, numTiers, numColumns =  MAX_PVP_TALENT_TIERS * MAX_PVP_TALENT_COLUMNS, MAX_PVP_TALENT_TIERS, MAX_PVP_TALENT_COLUMNS
+  local numTalents, numTiers, numColumns =  0, 0, 0 --MAX_PVP_TALENT_TIERS * MAX_PVP_TALENT_COLUMNS, MAX_PVP_TALENT_TIERS, MAX_PVP_TALENT_COLUMNS
   local talentId, tier, column = 1, 1, 1
   while talentId <= numTalents do
     while tier <= numTiers do
@@ -543,7 +544,6 @@ do
     tier = 1
   end
 end
-
 -- GetTotemInfo() only works for the first 5 totems
 WeakAuras.totem_types = {};
 local totemString = L["Totem #%i"];
