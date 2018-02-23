@@ -3333,7 +3333,6 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 
 		--> player death
 		elseif (not _UnitIsFeignDeath (alvo_name)) then
-			print(alvo_flags, AFFILIATION_GROUP)
 			if (
 				--> player in your group
 				_bit_band (alvo_flags, AFFILIATION_GROUP) ~= 0 and
