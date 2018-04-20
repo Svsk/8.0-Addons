@@ -32,7 +32,7 @@ local lsmlist = AceGUIWidgetLSMlists
 
 ----------------------------
 -- Upvalues
--- GLOBALS: 
+-- GLOBALS:
 local CreateFrame, GetTime, UIParent = CreateFrame, GetTime, UIParent
 local UnitIsUnit, UnitBuff, UnitDebuff = UnitIsUnit, UnitBuff, UnitDebuff
 local unpack, pairs, next, unpack, sort = unpack, pairs, next, unpack, sort
@@ -55,59 +55,59 @@ local defaults = {
 		targetfixedduration = 0,
 		targeticons = true,
 		targeticonside = "right",
-		
+
 		targetanchor = "player",--L["Free"], L["Target"], L["Focus"]
 		targetx = 500,
 		targety = 350,
 		targetgrowdirection = "up", --L["Down"]
 		targetposition = "topright",
-		
+
 		targetgap = 1,
 		targetspacing = 1,
 		targetoffset = 3,
-		
+
 		targetwidth = 120,
 		targetheight = 12,
-		
+
 		focus = true,
 		focusbuffs = true,
 		focusdebuffs = true,
 		focusfixedduration = 0,
 		focusicons = true,
 		focusiconside = "left",
-		
+
 		focusanchor = "player",--L["Free"], L["Target"], L["Focus"]
 		focusx = 400,
 		focusy = 350,
 		focusgrowdirection = "up", --L["Down"]
 		focusposition = "bottomleft",
-		
+
 		focusgap = 1,
 		focusspacing = 1,
 		focusoffset = 3,
-		
+
 		focuswidth = 120,
 		focusheight = 12,
-		
+
 		buffnametext = true,
 		bufftimetext = true,
-		
+
 		bufftexture = "LiteStep",
 		bufffont = "Friz Quadrata TT",
 		bufffontsize = 9,
 		buffalpha = 1,
-		
+
 		buffcolor = {0,0.49, 1},
-		
+
 		debuffsbytype = true,
 		debuffcolor = {1.0, 0.7, 0},
 		Poison = {0, 1, 0},
 		Magic = {0, 0, 1},
 		Disease = {.55, .15, 0},
 		Curse = {1, 0, 1},
-		
+
 		bufftextcolor = {1,1,1},
-		
+
 		timesort = true,
 	}
 }
@@ -173,27 +173,27 @@ do
 		["rightup"] = L["Right (grow up)"],
 		["rightdown"] = L["Right (grow down)"],
 	}
-	
+
 	local function hidedebuffsbytype()
 		return not db.debuffsbytype
 	end
-	
+
 	local function hidedebuffsnottype()
 		return db.debuffsbytype
 	end
-	
+
 	local function gettargetfreeoptionshidden()
 		return db.targetanchor ~= "free"
 	end
-	
+
 	local function gettargetnotfreeoptionshidden()
 		return db.targetanchor == "free"
 	end
-	
+
 	local function targetdragstart()
 		targetbars[1]:StartMoving()
 	end
-	
+
 	local function targetdragstop()
 		db.targetx = targetbars[1]:GetLeft()
 		db.targety = targetbars[1]:GetBottom()
@@ -219,7 +219,7 @@ do
 	local function focusnothing()
 		focusbars[1]:SetAlpha(db.buffalpha)
 	end
-	
+
 	local function setOpt(info, value)
 		db[info.arg or info[#info]] = value
 		Buff:ApplySettings()
@@ -228,7 +228,7 @@ do
 	local function getOpt(info)
 		return db[info.arg or info[#info]]
 	end
-	
+
 	local function setOptFocus(info, value)
 		db[info.arg or ("focus"..info[#info])] = value
 		Buff:ApplySettings()
@@ -237,7 +237,7 @@ do
 	local function getOptFocus(info)
 		return db[info.arg or ("focus"..info[#info])]
 	end
-	
+
 	local function setOptTarget(info, value)
 		db[info.arg or ("target"..info[#info])] = value
 		Buff:ApplySettings()
@@ -257,7 +257,7 @@ do
 
 	local options
 	function getOptions()
-		if not options then 
+		if not options then
 			options = {
 				type = "group",
 				name = L["Buff"],
@@ -649,7 +649,7 @@ do
 							},
 							bufftexture = {
 								type = "select",
-								dialogControl = "LSM30_Statusbar", 
+								dialogControl = "LSM30_Statusbar",
 								name = L["Texture"],
 								desc = L["Set the buff bar Texture"],
 								values = lsmlist.statusbar,
@@ -864,7 +864,7 @@ do
 		tbl.isbuff, tbl.dispeltype = nil, nil
 		tblCache[tbl] = true
 	end
-	
+
 	local function mysort(a,b)
 		if db.timesort then
 			if a.isbuff == b.isbuff then
@@ -880,7 +880,7 @@ do
 			end
 		end
 	end
-	
+
 	local tmp = {}
 	local called = false -- prevent recursive calls when new bars are created.
 	function Buff:UpdateTargetBars()
@@ -895,7 +895,7 @@ do
 			end
 			if db.targetbuffs then
 				for i = 1, 32 do
-					local name, rank, texture, applications, _, duration, expirationTime, caster = UnitBuff("target", i)
+					local name, texture, applications, _, duration, expirationTime, caster = UnitBuff("target", i)
 					local remaining = expirationTime and (expirationTime - GetTime()) or nil
 					if not name then
 						break
@@ -914,7 +914,7 @@ do
 			end
 			if db.targetdebuffs then
 				for i = 1, 40 do
-					local name, rank, texture, applications, dispeltype, duration, expirationTime, caster = UnitDebuff("target", i)
+					local name, texture, applications, dispeltype, duration, expirationTime, caster = UnitDebuff("target", i)
 					local remaining =  expirationTime and (expirationTime - GetTime()) or nil
 					if not name then
 						break
@@ -1003,7 +1003,7 @@ do
 			end
 			if db.focusbuffs then
 				for i = 1, 32 do
-					local name, rank, texture, applications, dispeltype, duration, expirationTime, caster = UnitBuff("focus", i)
+					local name, texture, applications, debuffType, duration, expirationTime = UnitBuff("focus", i)
 					local remaining =  expirationTime and (expirationTime - GetTime()) or nil
 					if not name then
 						break
@@ -1139,7 +1139,7 @@ do
 		bar:SetHeight(height)
 		bar:SetScale(qpdb.scale)
 		bar:SetAlpha(db.buffalpha)
-		
+
 		if anchor == "free" then
 			if i == 1 then
 				bar:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", x, y)
@@ -1165,7 +1165,7 @@ do
 				else -- L["Player"]
 					anchorframe = Player.Bar
 				end
-				
+
 				if position == "top" then
 					direction = 1
 					bar:SetPoint("BOTTOM", anchorframe, "TOP", 0, gap)
@@ -1229,7 +1229,7 @@ do
 				end
 			end
 		end
-		
+
 		local timetext = bar.timetext
 		if db.bufftimetext then
 			timetext:Show()
@@ -1246,12 +1246,12 @@ do
 		timetext:SetTextColor(unpack(db.bufftextcolor))
 		timetext:SetNonSpaceWrap(false)
 		timetext:SetHeight(height)
-		
+
 		local temptext = timetext:GetText()
 		timetext:SetText("10.0")
 		local normaltimewidth = timetext:GetStringWidth()
 		timetext:SetText(temptext)
-		
+
 		local text = bar.text
 		if db.buffnametext then
 			text:Show()
@@ -1272,7 +1272,7 @@ do
 		text:SetTextColor(unpack(db.bufftextcolor))
 		text:SetNonSpaceWrap(false)
 		text:SetHeight(height)
-		
+
 		local icon = bar.icon
 		if icons then
 			icon:Show()
@@ -1288,7 +1288,7 @@ do
 		else
 			icon:Hide()
 		end
-		
+
 		return direction
 	end
 	function Buff:ApplySettings()

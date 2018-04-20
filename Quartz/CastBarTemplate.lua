@@ -70,7 +70,7 @@ local function OnUpdate(self)
 		elseif self.channeling then
 			remainingTime = endTime - currentTime
 			perc = remainingTime / (endTime - startTime)
-			
+
 			delayFormat, delayFormatTime = "|cffff0000-%.1f|cffffffff %s", "|cffff0000-%.1f|cffffffff %s / %s"
 		end
 
@@ -178,7 +178,8 @@ CastBarTemplate.ToggleCastNotInterruptible = ToggleCastNotInterruptible
 ----------------------------
 -- Event Handlers
 
-function CastBarTemplate:UNIT_SPELLCAST_SENT(event, unit, spell, rank, target)
+function CastBarTemplate:UNIT_SPELLCAST_SENT(event, unit, spell, target)
+	local rank = 0 -- XXX BfA Temp
 	if unit ~= self.unit and not (self.unit == "player" and unit == "vehicle") then
 		return
 	end
@@ -203,11 +204,11 @@ function CastBarTemplate:UNIT_SPELLCAST_START(event, unit)
 		self.casting, self.channeling = nil, true
 	end
 
-	local spell, rank, displayName, icon, startTime, endTime, isTradeSkill, castID, notInterruptible
+	local spell, displayName, icon, startTime, endTime, isTradeSkill, castID, notInterruptible
 	if self.casting then
-		spell, rank, displayName, icon, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo(unit)
+		spell, displayName, icon, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo(unit)
 	else -- self.channeling
-		spell, rank, displayName, icon, startTime, endTime, isTradeSkill, notInterruptible = UnitChannelInfo(unit)
+		spell, displayName, icon, startTime, endTime, isTradeSkill, notInterruptible = UnitChannelInfo(unit)
 		-- channeling spells sometimes just display "Channeling" - this is not wanted
 		displayName = spell
 	end
@@ -309,11 +310,11 @@ function CastBarTemplate:UNIT_SPELLCAST_DELAYED(event, unit)
 		return
 	end
 	local oldStart = self.startTime
-	local spell, rank, displayName, icon, startTime, endTime
+	local spell, displayName, icon, startTime, endTime
 	if self.casting then
-		spell, rank, displayName, icon, startTime, endTime = UnitCastingInfo(unit)
+		spell, displayName, icon, startTime, endTime = UnitCastingInfo(unit)
 	else
-		spell, rank, displayName, icon, startTime, endTime = UnitChannelInfo(unit)
+		spell, displayName, icon, startTime, endTime = UnitChannelInfo(unit)
 	end
 
 	if not startTime or not endTime then
@@ -597,7 +598,7 @@ do
 		local db = getBar(info).config
 		return not db.noInterruptChangeColor
 	end
-	
+
 	local function icondisabled(info)
 		local db = getBar(info).config
 		return db.hideicon
