@@ -28,6 +28,7 @@ function RepBarMod:OnInitialize()
 end
 
 function RepBarMod:OnEnable()
+	if C_Map then return end -- XXX Kill Bfa XP Bar
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("Rep", self.db.profile, L["Reputation Bar"]), {__index = RepBar})
 		self.bar.content = ReputationWatchBar
@@ -83,6 +84,7 @@ function XPBarMod:OnInitialize()
 end
 
 function XPBarMod:OnEnable()
+	if C_Map then return end -- XXX Kill Bfa XP Bar
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("XP", self.db.profile, L["XP Bar"]), {__index = XPBar})
 		self.bar.content = MainMenuExpBar
@@ -117,6 +119,7 @@ function APBarMod:OnInitialize()
 end
 
 function APBarMod:OnEnable()
+	if C_Map then return end -- XXX Kill Bfa XP Bar
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("AP", self.db.profile, L["Artifact Power Bar"]), {__index = APBar})
 		self.bar.content = ArtifactWatchBar
