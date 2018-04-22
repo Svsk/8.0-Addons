@@ -13,3 +13,4 @@
 * Details: http://www.wowinterface.com/downloads/info23056-DetailsDamageMeter8.07.3.5.html
 * KuiNameplates2: https://github.com/kesava-wow/kuinameplates2/tree/bfa
 * LittleWigs: https://wow.curseforge.com/projects/little-wigs/files
+* Pitbull4: https://www.wowace.com/projects/pitbull-unit-frames-4-0/files
