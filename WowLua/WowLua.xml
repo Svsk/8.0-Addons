@@ -27,6 +27,31 @@
 		<FontHeight val="14"/>
     </Font>
 
+	<Frame name="ConsoleOutputFrame" movable="true" hidden="true" parent="UIParent" enableMouse="true" frameStrata="MEDIUM">
+		<Size x="640" y="512"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture setAllPoints="true">
+					<Color r="0" g="0" b="0" a="1"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<EditBox name="ConsoleOutputEditBox" multiLine="true" nonspacewrap="true" spacing="1" autoFocus="false">
+				<Size>
+					<AbsDimension x="100" y="100"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="10" y="-10"/>
+					</Anchor>
+					<Anchor point="BOTTOMRIGHT"/>
+				</Anchors>
+				<FontString inherits="WowLuaMonoFont"  />
+			</EditBox>
+		</Frames>
+	</Frame>
+
 	<Frame name="WowLuaFrame" toplevel="true" hidden="true" movable="true" parent="UIParent" enableMouse="true" resizable="true" frameStrata="MEDIUM">
 		<Size x="640" y="512"/>
 		<Anchors>
@@ -333,6 +358,15 @@
 							<Button name="WowLuaButton_Run" inherits="WowLuaButtonTemplate">
 								<Anchors>
 									<Anchor point="LEFT" relativeTo="WowLuaButton_Next" relativePoint="RIGHT">
+										<Offset x="5" y="0"/>
+									</Anchor>
+								</Anchors>
+								<NormalTexture file="Interface\AddOns\WowLua\images\run-1"/>
+								<HighlightTexture file="Interface\AddOns\WowLua\images\highlight"/>
+							</Button>
+							<Button name="WowLuaButton_CopyOutput" inherits="WowLuaButtonTemplate">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="WowLuaButton_Run" relativePoint="RIGHT">
 										<Offset x="5" y="0"/>
 									</Anchor>
 								</Anchors>
