@@ -110,7 +110,8 @@ local function wowpad_print(...)
 
 		out = out .. tostring(select(i, ...))
 	end
-	WowLuaFrameOutput:AddMessage("|cff999999" .. out .. "|r")
+	
+	OutputMessage("|cff999999" .. out .. "|r")
 end
 
 if not print then
@@ -143,7 +144,7 @@ function WowLua:ProcessLine(text)
 	-- escape any color codes:
 	local output = text:gsub("\124", "\124\124")
 
-	WowLuaFrameOutput:AddMessage(WowLuaFrameCommandPrompt:GetText() .. output)
+	OutputMessage(WowLuaFrameCommandPrompt:GetText() .. output)
 
 	WowLuaFrameCommandEditBox:AddHistoryLine(output)
 
@@ -182,7 +183,7 @@ function WowLua:ProcessLine(text)
 			return
 		end
 
-		WowLuaFrameOutput:AddMessage("|cffff0000" .. err .. "|r")
+		OutputMessage("|cffff0000" .. err .. "|r")
 		self.cmd = nil
 		WowLuaFrameCommandPrompt:SetText("> ")
 	else
@@ -197,7 +198,7 @@ function WowLua:ProcessLine(text)
 		print = old_print
 
 		if not succ then
-			WowLuaFrameOutput:AddMessage("|cffff0000" .. err .. "|r")
+			OutputMessage("|cffff0000" .. err .. "|r")
 		end
 
 		self.cmd = nil
@@ -223,7 +224,7 @@ function WowLua:RunScript(text)
 	local func,err = loadstring(text, "WowLua")
 
 	if not func then
-		WowLuaFrameOutput:AddMessage("|cffff0000" .. err .. "|r")
+		OutputMessage("|cffff0000" .. err .. "|r")
 		return false, err
 	else
 		-- Make print a global function
@@ -237,12 +238,19 @@ function WowLua:RunScript(text)
 		print = old_print
 
 		if not succ then
-			WowLuaFrameOutput:AddMessage("|cffff0000" .. err .. "|r")
+			OutputMessage("|cffff0000" .. err .. "|r")
 			return false, err
 		end
 	end
 
 	return true
+end
+
+consoleHistory = {}
+
+function OutputMessage(text)
+	table.insert(consoleHistory, text)
+	WowLuaFrameOutput:AddMessage(text)
 end
 
 function WowLua:Initialize(frame)
@@ -295,6 +303,8 @@ function WowLua:Button_OnClick(button)
         WowLua:Button_Config(button)
 	elseif operation == "Close" then
 		WowLua:Button_Close(button)
+	elseif operation == "CopyOutput" then
+		WowLua:Button_CopyOutput(button)
 	end
 end
 
@@ -394,8 +404,8 @@ end
 
 StaticPopupDialogs["WOWLUA_SAVE_AS"] = {
 	text = L.SAVE_AS_TEXT,
-	button1 = "Ok",
-	button2 = "Cancel",
+	button1 = OKAY and OKAY or "Okay",
+	button2 = CANCEL and CANCEL or "Cancel",
 	OnAccept = function(self)
 		local name = self:GetName().."EditBox"
 		local button = _G[name]
@@ -515,8 +525,8 @@ end
 
 StaticPopupDialogs["WOWLUA_UNSAVED"] = {
 	text = L.UNSAVED_TEXT,
-	button1 = "Ok",
-	button2 = "Cancel",
+	button1 = OKAY and OKAY or "Okay",
+	button2 = CANCEL and CANCEL or "Cancel",
 	OnAccept = function(self)
 		local page,entry = WowLua:GetCurrentPage()
 		WowLuaFrameEditBox:SetText(entry.content)
@@ -641,6 +651,22 @@ function WowLua:Button_Run()
 			WowLuaFrameEditBox:SetCursorPosition(start - 1)
 		end
 	end
+end
+
+function WowLua:Button_CopyOutput()
+	--ConsoleOutputFrame
+
+	ConsoleOutputFrame:Show()
+	--ConsoleOutputFrame:SetBackdropColor(0,0,0,1)
+	-- ConsoleOutputFrame:ClearAllPoints()
+	ConsoleOutputFrame:SetPoint("CENTER")
+	ConsoleOutputFrame:SetWidth(640)
+	ConsoleOutputFrame:SetHeight(512)
+
+	ConsoleOutputEditBox:SetPoint("CENTER")
+	ConsoleOutputEditBox:SetWidth(640)
+	ConsoleOutputEditBox:SetHeight(512)
+	ConsoleOutputEditBox:SetText(table.concat(consoleHistory, "\n"))
 end
 
 function WowLua:Button_Config()
